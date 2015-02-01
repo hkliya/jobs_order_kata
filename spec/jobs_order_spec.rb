@@ -8,5 +8,9 @@ describe 'JobsOrder' do
         expect(JobsOrder.process '').to eql []
       end
     end
+
+    it 'processes a single job' do
+      expect(JobsOrder.process 'a => ').to eql ['a']
+    end
   end
 end
