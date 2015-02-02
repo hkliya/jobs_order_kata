@@ -30,5 +30,22 @@ describe 'JobsOrder' do
       expect(result).to include(*['a', 'b', 'c'])
       expect(result).to have_order('c', 'b')
     end
+
+    it 'processes multiple jobs with multiple dependencies' do
+      jobs = "a =>
+              b => c
+              c => f
+              d => a
+              e => b
+              f =>"
+
+      result = JobsOrder.process jobs
+
+      expect(result).to include(*['a', 'b', 'c', 'd', 'e', 'f'])
+      expect(result).to have_order('f', 'c')
+      expect(result).to have_order('c', 'b')
+      expect(result).to have_order('b', 'e')
+      expect(result).to have_order('a', 'd')
+    end
   end
 end
