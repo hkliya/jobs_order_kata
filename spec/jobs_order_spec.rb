@@ -17,7 +17,7 @@ describe 'JobsOrder' do
       jobs = "a =>
               b =>
               c =>"
-      expect(JobsOrder.process jobs).to eql ['a', 'b', 'c']
+      expect(JobsOrder.process jobs).to include(*['a', 'b', 'c'])
     end
   end
 end
