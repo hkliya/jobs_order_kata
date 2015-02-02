@@ -5,9 +5,8 @@ class JobsOrder
 
   def order
     result = []
-    @jobs.each { |job_name, dependency|
-      result << dependencies_of(dependency)
-      result << job_name
+    @jobs.each_key { |job|
+      result << dependencies_of(job)
     }
     result.flatten
   end
