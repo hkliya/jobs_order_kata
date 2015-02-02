@@ -4,6 +4,7 @@ class JobsOrder
   end
 
   def order
+    detect_self_referencing()
     result = []
     @jobs.each_key { |job|
       result << dependencies_of(job)
@@ -36,5 +37,11 @@ class JobsOrder
 
   def dependency_of(job)
     @jobs[job]
+  end
+
+  def detect_self_referencing
+    @jobs.each do |job, dependency|
+      raise "Jobs can't depend on themselves" if job.eql? dependency
+    end
   end
 end

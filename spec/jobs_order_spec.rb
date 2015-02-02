@@ -47,5 +47,15 @@ describe 'JobsOrder' do
       expect(result).to have_order('b', 'e')
       expect(result).to have_order('a', 'd')
     end
+
+    it 'raises error when exist self referencing dependency' do
+      jobs = "a =>
+              b =>
+              c =>c"
+
+      expect{
+        JobsOrder.process jobs
+      }.to raise_error("Jobs can't depend on themselves")
+    end
   end
 end
