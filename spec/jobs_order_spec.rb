@@ -1,5 +1,6 @@
 require 'rspec'
 require './lib/jobs_order'
+require './spec/matcher'
 
 describe 'JobsOrder' do
   describe '#process' do
@@ -27,8 +28,7 @@ describe 'JobsOrder' do
 
       result = JobsOrder.process jobs
       expect(result).to include(*['a', 'b', 'c'])
-
-      expect(result.index 'b').to be > result.index('c')
+      expect(result).to have_order('c', 'b')
     end
   end
 end
