@@ -19,5 +19,16 @@ describe 'JobsOrder' do
               c =>"
       expect(JobsOrder.process jobs).to include(*['a', 'b', 'c'])
     end
+
+    it 'processes multiple jobs with single dependency' do
+      jobs = "a =>
+              b => c
+              c =>"
+
+      result = JobsOrder.process jobs
+      expect(result).to include(*['a', 'b', 'c'])
+
+      expect(result.index 'b').to be > result.index('c')
+    end
   end
 end
