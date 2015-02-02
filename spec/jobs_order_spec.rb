@@ -12,5 +12,12 @@ describe 'JobsOrder' do
     it 'processes a single job' do
       expect(JobsOrder.process 'a => ').to eql ['a']
     end
+
+    it 'processes multiple jobs' do
+      jobs = "a =>
+              b =>
+              c =>"
+      expect(JobsOrder.process jobs).to eql ['a', 'b', 'c']
+    end
   end
 end
