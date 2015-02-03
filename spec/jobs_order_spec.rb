@@ -57,5 +57,18 @@ describe 'JobsOrder' do
         JobsOrder.process jobs
       }.to raise_error("Jobs can't depend on themselves")
     end
+
+    it 'raises error when exist circular dependencies' do
+      jobs = "a =>
+              b => c
+              c => f
+              d => a
+              e =>
+              f => b"
+
+      expect{
+        JobsOrder.process jobs
+      }.to raise_error("Jobs can't have circular dependencies")
+    end
   end
 end
