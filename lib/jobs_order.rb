@@ -1,10 +1,10 @@
 class JobsOrder
   def initialize(jobs_description)
     @jobs = parse jobs_description
+    raise "Jobs can't depend on themselves" if exist_self_referencing?
   end
 
   def order
-    detect_self_referencing()
     result = []
     @jobs.each_key { |job|
       result << dependencies_of(job)
@@ -39,9 +39,10 @@ class JobsOrder
     @jobs[job]
   end
 
-  def detect_self_referencing
+  def exist_self_referencing?
     @jobs.each do |job, dependency|
-      raise "Jobs can't depend on themselves" if job.eql? dependency
+       return true if job.eql? dependency
     end
+    false
   end
 end
