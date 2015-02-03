@@ -10,7 +10,7 @@ class JobsOrder
     @jobs.each_key { |job|
       result << dependencies_of(job)
     }
-    result.flatten
+    result.flatten.uniq
   end
 
   def self.process(jobs_description)

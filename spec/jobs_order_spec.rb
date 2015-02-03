@@ -1,4 +1,5 @@
 require 'rspec'
+require 'rspec/collection_matchers'
 require './lib/jobs_order'
 require './spec/matcher'
 
@@ -69,6 +70,19 @@ describe 'JobsOrder' do
       expect{
         JobsOrder.process jobs
       }.to raise_error("Jobs can't have circular dependencies")
+    end
+
+    it 'should not contain duplicate tasks' do
+      jobs = "a =>
+              b => c
+              c => f
+              d => a
+              e => b
+              f =>"
+
+      result = JobsOrder.process jobs
+
+      expect(result).to have_exactly(6).items
     end
   end
 end
